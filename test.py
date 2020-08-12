@@ -1,16 +1,11 @@
-from face_detection import detector
 from fast_alignment import LandmarkPredictor
 import cv2
 from face_detection import RetinaFace
-import torch
+from contexttimer import Timer
+from fast_alignment.utils import drawLandmark_multiple
 
 if __name__ == "__main__":
-    from contexttimer import Timer
-    from fast_alignment.utils import drawLandmark_multiple
-
-    checkpoint = "weights/mobilenet_224_model_best_gdconv_external.pth"
-
-    predictor = LandmarkPredictor(checkpoint, 0)
+    predictor = LandmarkPredictor(0)
     detector = RetinaFace(0)
 
     imgname = "examples/obama.jpg"

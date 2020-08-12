@@ -17,7 +17,11 @@ def get_device(gpu_id):
 
 def load_model(file):
     model = MobileNet_GDConv(136)
-    model.load_state_dict(torch.load(file, map_location="cpu"))
+    if file is not None:
+        model.load_state_dict(torch.load(file, map_location="cpu"))
+    else:
+        url = "https://github.com/elliottzheng/fast-alignment/releases/download/weights_v1/mobilenet_224_model_best_gdconv_external.pth"
+        model.load_state_dict(torch.utils.model_zoo.load_url(url))
     return model
 
 
@@ -124,7 +128,7 @@ def batch_predict2(model, feeds, device, batch_size=None):
 
 
 class LandmarkPredictor:
-    def __init__(self, file, gpu_id=0):
+    def __init__(self, gpu_id=0, file=None):
         self.device = get_device(gpu_id)
         self.model = load_model(file).to(self.device).eval()
 
